@@ -44,6 +44,7 @@ def parse_example(f):
   key = hashlib.sha256(encoded_image_data).hexdigest()
 
   height, width, channel = image_raw.shape
+  shape = [height, width, channel]
   print("height is %d, width is %d, channel is %d" % (height, width, channel))
 
   face_num = int(f.readline().rstrip())
@@ -72,20 +73,18 @@ def parse_example(f):
   tf_example = tf.train.Example(features=tf.train.Features(feature={
     'image/height': dataset_util.int64_feature(int(height)),
     'image/width': dataset_util.int64_feature(int(width)),
-    'image/filename': dataset_util.bytes_feature(filename),
-    'image/source_id': dataset_util.bytes_feature(filename),
-    'image/key/sha256': dataset_util.bytes_feature(key.encode('utf8')),
-    'image/encoded': dataset_util.bytes_feature(encoded_image_data),
-    'image/format': dataset_util.bytes_feature('jpeg'.encode('utf8')),
+    'image/channels': dataset_util.int64_feature(channel),
+    'image/shape': dataset_util.int64_list_feature(shape),
     'image/object/bbox/xmin': dataset_util.float_list_feature(xmins),
     'image/object/bbox/xmax': dataset_util.float_list_feature(xmaxs),
     'image/object/bbox/ymin': dataset_util.float_list_feature(ymins),
     'image/object/bbox/ymax': dataset_util.float_list_feature(ymaxs),
-    'image/object/class/text': dataset_util.bytes_list_feature(classes_text),
-    'image/object/class/label': dataset_util.int64_list_feature(classes),
-    'image/object/difficult': dataset_util.int64_list_feature(int(0)),
-    'image/object/truncated': dataset_util.int64_list_feature(truncated),
-    'image/object/view': dataset_util.bytes_list_feature(poses),
+    'image/object/bbox/label': dataset_util.int64_list_feature(classes),
+    'image/object/bbox/label_text': dataset_util.bytes_list_feature(classes_text),
+    'image/object/bbox/difficult': dataset_util.int64_list_feature(int(0)),
+    'image/object/bbox/truncated': dataset_util.int64_list_feature(truncated),
+    'image/format': dataset_util.bytes_feature('jpeg'.encode('utf8')),
+    'image/encoded': dataset_util.bytes_feature(encoded_image_data),
     }))
 
 
@@ -96,7 +95,7 @@ def main(unused_argv):
   f = open("WIDER/wider_face_train_annot.txt")
   writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
 
-# WIDER FACE DATASET ANNOTATED 12880 IMAGES
+# WIDER FACE DATASET ANNOTATED 12880 IMAGES IN TRAINING SET, 3000 IN VALIDATION SET
   valid_image_num = 0
   invalid_image_num = 0
   for image_idx in range(12880):
