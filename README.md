@@ -1,3 +1,16 @@
+# tfrecords convert script for SSD
+parse [WIDER FACE](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/) dataset to fit object detectors such as SSD, faster-RCNN, which uses the PASCAL VOC dataset
+
+# Environment 
+Python 3
+OpenCV 3
+Tensorflow 1.3
+
+# Instructions 
+Please read the following guide from the original aurthor
+
+#==================================================original discription==================================================#
+
 # widerface-to-tfrecord
 parse [WIDER FACE](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/) dataset to tensorflow tfrecord format for object detection api.
 
