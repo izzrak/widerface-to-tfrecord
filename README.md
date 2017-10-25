@@ -1,5 +1,5 @@
 # Tfrecords convertion script for SSD
-Parse [WIDER FACE](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/) dataset to fit object detectors such as SSD, faster-RCNN, which uses the PASCAL VOC dataset.
+Parse [WIDER FACE](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/) dataset to fit object detectors such as SSD, faster-RCNN, which originally uses the PASCAL VOC dataset.
 
 This script is modified for [a tensor flow implementation](https://github.com/balancap/SSD-Tensorflow) of SSD.
 
